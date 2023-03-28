@@ -129,15 +129,13 @@ if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] 
                                     $total_bid = 0;
                                     $total_win = 0;
                                     $total_pl = 0;
-
+                                    $pl = 0;
                                     foreach ($online_counter_results as $key => $online_counter_result) {
 
                                         $total_bid += $online_counter_result->bidding_amount;
                                         $total_win += $online_counter_result->win_amount;
-
+                                        $total_pl += intval($online_counter_result->bidding_amount) - intval($online_counter_result->win_amount);
                                         $pl = number_format(round(intval($online_counter_result->bidding_amount) - intval($online_counter_result->win_amount)), 2);
-
-                                        $total_pl += $pl;
 
                                         $plper = number_format(round(((intval($online_counter_result->bidding_amount) * intval($pl)) / 100)), 2)
                                     ?>
@@ -163,7 +161,7 @@ if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] 
                                         <th></th>
                                         <th><?= number_format(round($total_bid), 2) ?></th>
                                         <th><?= number_format(round($total_win), 2) ?></th>
-                                        <th><?= number_format(round($total_pl), 2) ?></th>
+                                        <th><?= number_format($total_pl, 2) ?></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -230,9 +228,29 @@ if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] 
         <div class="row layout-top-spacing">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="row widget-statistic">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="widget widget-one_hybrid widget-engagement">
+                            <div class="widget-heading">
+                                <div class="w-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <h5 class="">Total Dealer</h5>
+                                <p class="w-value"> <span class="rupee_sign"> </span> <?= $total_dealer ?></p>
 
-
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            </div>
+                            <div class="widget-content">
+                                <div class="w-chart">
+                                    <div id="hybrid_followers"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                         <div class="widget widget-one_hybrid widget-engagement">
                             <div class="widget-heading">
                                 <div class="w-icon">
@@ -254,7 +272,7 @@ if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] 
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                         <div class="widget widget-one_hybrid widget-social">
                             <div class="widget-heading">
                                 <div class="w-icon">

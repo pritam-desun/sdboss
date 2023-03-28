@@ -40,6 +40,12 @@ class Dashboard extends CI_Controller
 		$data['withdrawal_today'] = $this->dashboard->getTotalWithdrawalToday();
 		//Get Total Amount of balance request approved today
 		$data['deposit_today'] = $this->dashboard->getTotalDepositToday();
+		//Get Total Dealer
+		$data['total_dealer'] = $this->dashboard->getTotalDealer();
+
+		/* echo "<pre>";
+		print_r($data['total_dealer']);
+		die; */
 
 
 		/* For New code */

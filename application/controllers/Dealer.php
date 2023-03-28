@@ -16,7 +16,8 @@ class Dealer extends CI_Controller
   public function view()
   {
     $data = [];
-    if ($this->session->user['user_type'] == 1) {
+
+    if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] == 2) {
       $distributor_id = $this->uri->segment(3);
       $where = '';
       if (!is_null($distributor_id)) {
@@ -27,10 +28,11 @@ class Dealer extends CI_Controller
       /* echo $this->db->last_query();
       die; */
       // $data['dealer'] = $this->db->get_where("tbl_admin_login", ['user_type !=' => 1])->result_array();
-    } else if ($this->session->user['user_type'] == 2) {
-      $data['dealer'] = $this->db->query("SELECT * FROM `users` ORDER BY created_at DESC")->result_array();
     } else if ($this->session->user['user_type'] == 3) {
-      $data['dealer'] = $this->db->query("SELECT users.* FROM `users` LEFT JOIN customers ON users.user_id=customers.assigned_by_id WHERE user_name = 'dealer' AND users.assigned_by_id = 15 GROUP BY users.user_id")->result_array();
+      $distrubutor_id = $this->session->user['user_id'];
+      $data['dealer'] = $this->db->query("SELECT users.*, CONCAT((SELECT COUNT(customers.id) FROM customers WHERE customers.assigned_by_id=user_id)) as total FROM `users` LEFT JOIN customers ON users.user_id=customers.assigned_by_id WHERE user_name = 'dealer' AND users.assigned_by_id = $distrubutor_id GROUP BY users.user_id")->result_array();
+      /* echo $this->db->last_query();
+      exit; */
     }
     $this->load->view('layout/header');
     $this->load->view('dealer/view', $data);

@@ -288,6 +288,10 @@ class Money extends CI_Controller
 	public function getUserListByType()
 	{
 		$user_type = $this->input->post('user_type');
+
+		if ($this->session->user['user_type'] == 3) {
+			$this->db->where('users.assigned_by_id', $this->session->user['user_id']);
+		}
 		$results = $this->db->get_where('users', array('user_type' => $user_type))->result();
 		$html = '';
 		if (@count($results) > 0) {

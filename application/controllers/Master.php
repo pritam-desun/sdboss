@@ -628,4 +628,41 @@ class Master extends CI_Controller
 
 		echo $result->category_id;
 	}
+
+	public function addguess()
+	{
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+
+			$data = array(
+				'category_id' => $this->input->post('category_id'),
+				'number' => $this->input->post('number'),
+			);
+			if ($this->db->insert('guessing', $data)) {
+				$this->session->set_flashdata('msg', 'Guessing Added successfully');
+				$this->session->set_flashdata('msg_class', 'success');
+			}
+			redirect('master/addguess');
+			/* echo "<pre>";
+			print_r($this->input->post());
+			die; */
+		}
+		$data['categories'] = $this->db->get_where('category', array('status' => 'Y'))->result();
+		$this->load->view('layout/header');
+		$this->load->view('master/guess/add', $data);
+		$this->load->view('layout/footer');
+	}
+
+	public function viewguess()
+	{
+		$this->db->select('category.*,	guessing.*, DATE_FORMAT(guessing.guessing_date, "%d-%m-%Y") as  guessing_date');
+		$this->db->join('category', 'guessing.category_id=category.id', 'left');
+		$data['guessing'] = $this->db->get('guessing')->result();
+
+		/* echo "<pre>";
+		print_r($data['guessing']);
+		die; */
+		$this->load->view('layout/header');
+		$this->load->view('master/guess/view', $data);
+		$this->load->view('layout/footer');
+	}
 }
