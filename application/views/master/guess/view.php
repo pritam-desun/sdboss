@@ -21,7 +21,9 @@
                                     <td><?= $guessingrow->cat_name ?></td>
                                     <td><?= $guessingrow->number ?></td>
                                     <td><?= $guessingrow->guessing_date ?></td>
-                                    <td></td>
+                                    <td>
+                                        <a href="http://localhost:8080/counter/view/16" id="" class="btn btn-primary btn-sm" target="_blank">Edit</a> <a href="http://localhost:8080/counter/view/16" id="" class="btn btn-danger btn-sm" target="_blank">Delete</a>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
