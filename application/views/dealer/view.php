@@ -2,6 +2,7 @@
   <div class="row layout-top-spacing">
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
       <div class="widget-content widget-content-area br-6">
+        <h4>Dealer List</h4>
         <?php if ($this->session->flashdata('msg')) { ?>
           <div class="alert alert-<?= $this->session->flashdata('msg_class') ?> alert-dismissible show">
             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -21,7 +22,11 @@
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($dealer as $emp) {
+              <?php
+              /*  echo "<pre>";
+              print_r($dealer);
+              die; */
+              foreach ($dealer as $emp) {
                 if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] == 2 || $this->session->user['user_type'] == 3) {
                   if ($emp['is_active'] == 'yes') {
                     $url = base_url('dealer/dealerStatus/' . 0 . '/') . $emp['user_id'];
@@ -43,16 +48,14 @@
                   <td><?= $emp['full_name']; ?></td>
                   <td><?= $emp['email_id']; ?></td>
                   <td><?= $emp['phone_no']; ?></td>
-                  <td><?= $emp['phone_no']; ?></td>
+                  <td><?= $emp['wallet']; ?></td>
 
                   <?php if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] == 2 || $this->session->user['user_type'] == 3) {
                     $actionMenuIds = $this->session->user['ac'];
-
                     /* echo "<pre>";
                     print_r($this->session->user['ac']);
                     echo in_array(35, $actionMenuIds);
                     die('sess'); */
-
                     $action_menu = $this->db->query("SELECT id FROM `menu_action`")->result_array();
                     $action_menu = array_column($action_menu, 'id');
 
@@ -62,16 +65,14 @@
 
                   ?>
                     <td>
-
                       <?php
-                      $totalCounter = $this->db->get_where('customers', array('assigned_by_id' => $emp['user_id']))->num_rows();
-                      echo $this->commonHelper->actionBtn('counter/view/' . $emp['user_id'], 'btn btn-primary btn-sm', '', 'Counters (' . $totalCounter . ')', false) . ' ';
+                      echo $this->commonHelper->actionBtn('counter/view/' . $emp['user_id'], true, 'btn btn-primary btn-sm', '', 'Counters (' . $emp["total"] . ')', false) . ' ';
                       if (in_array(35, $actionMenuIds)) {
-                        echo $this->commonHelper->actionBtn('dealer/edit/' . $emp['user_id'], 'btn btn-info btn-sm', '', 'Edit', false) . ' ';
+                        echo $this->commonHelper->actionBtn('dealer/edit/' . $emp['user_id'], '', 'btn btn-info btn-sm', '', 'Edit', false) . ' ';
                       }
 
                       if (in_array(36, $actionMenuIds)) {
-                        echo $this->commonHelper->actionBtn('dealer/delete/' . $emp['user_id'], 'btn btn-danger btn-sm', '', 'Delete', true) . ' ';
+                        echo $this->commonHelper->actionBtn('dealer/delete/' . $emp['user_id'], '', 'btn btn-danger btn-sm', '', 'Delete', true) . ' ';
                       }
 
                       /* if (in_array(37, $actionMenuIds)) {

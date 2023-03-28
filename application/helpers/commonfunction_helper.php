@@ -16,7 +16,7 @@ class CommonFunction
         return $action;
     }
 
-    public function actionBtn($url = false, $htmlClass = NULL, $htmlId = NUll, $btnText = "Edit", $isConfirm = false, $confirmText = "Are you sure?", $isBtn = false)
+    public function actionBtn($url = false, $targetBlank = false, $htmlClass = NULL, $htmlId = NUll, $btnText = "Edit", $isConfirm = false, $confirmText = "Are you sure?", $isBtn = false)
     {
         /* 
         * $type link = a tag AND $type btn = button tag
@@ -36,7 +36,11 @@ class CommonFunction
             if ($isConfirm) {
                 $btn = '<a href="' . $mainUrl . '" id="' . $htmlId . '" class="' . $htmlClass . '" onClick="return confirm(' . "'$confirmText'" . ')">' . $btnText . '</a>';
             } else {
-                $btn = '<a href="' . $mainUrl . '" id="' . $htmlId . '" class="' . $htmlClass . '">' . $btnText . '</a>';
+                if ($targetBlank) {
+                    $btn = '<a href="' . $mainUrl . '" id="' . $htmlId . '" class="' . $htmlClass . '" target="_blank">' . $btnText . '</a>';
+                } else {
+                    $btn = '<a href="' . $mainUrl . '" id="' . $htmlId . '" class="' . $htmlClass . '">' . $btnText . '</a>';
+                }
             }
         }
 

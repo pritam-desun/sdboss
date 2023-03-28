@@ -17,7 +17,7 @@ class Distributor extends CI_Controller
 
     if ($this->session->user['user_type'] == 1) {
       //SELECT * FROM `tbl_admin_login` WHERE user_type = 3;
-      $data['distributor'] = $this->db->query("SELECT * FROM `users` WHERE user_type = 3 ORDER BY created_at DESC")->result_array();
+      $data['distributor'] = $this->db->query("SELECT users.*,  CONCAT((SELECT COUNT(u_total.user_id) FROM users as u_total WHERE u_total.assigned_by_id=users.user_id AND user_type=4)) as total FROM `users` WHERE user_type = 3 ORDER BY total DESC")->result_array();
       // $this->db->get_where("tbl_admin_login", ['user_type !=' => 1])->result_array();
     } else if ($this->session->user['user_type'] == 2) {
       $data['distributor'] = $this->db->query("SELECT * FROM `users` ORDER BY created_at DESC")->result_array();

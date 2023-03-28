@@ -17,7 +17,15 @@ class Dealer extends CI_Controller
   {
     $data = [];
     if ($this->session->user['user_type'] == 1) {
-      $data['dealer'] = $this->db->query("SELECT * FROM `users` WHERE user_type = 4 ORDER BY created_at DESC")->result_array();
+      $distributor_id = $this->uri->segment(3);
+      $where = '';
+      if (!is_null($distributor_id)) {
+        $where = 'AND users.assigned_by_id= ' . $distributor_id . '';
+      }
+      $data['dealer'] = $this->db->query("SELECT users.*, CONCAT((SELECT COUNT(customers.id) FROM customers WHERE customers.assigned_by_id=user_id)) as total FROM `users` WHERE user_type = 4  $where  ORDER BY total DESC")->result_array();
+
+      /* echo $this->db->last_query();
+      die; */
       // $data['dealer'] = $this->db->get_where("tbl_admin_login", ['user_type !=' => 1])->result_array();
     } else if ($this->session->user['user_type'] == 2) {
       $data['dealer'] = $this->db->query("SELECT * FROM `users` ORDER BY created_at DESC")->result_array();

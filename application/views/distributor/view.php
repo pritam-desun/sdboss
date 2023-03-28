@@ -2,6 +2,7 @@
   <div class="row layout-top-spacing">
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
       <div class="widget-content widget-content-area br-6">
+        <h4>Distributor List</h4>
         <?php if ($this->session->flashdata('msg')) { ?>
           <div class="alert alert-<?= $this->session->flashdata('msg_class') ?> alert-dismissible show">
             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -57,6 +58,7 @@
 
                   <?php if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] == 2) { ?>
                     <td>
+                      <a href="<?= base_url('dealer/view/') . $emp['user_id']; ?>" id="empEdit" target="_blank" class="btn btn-primary btn-sm">DL (<?= $emp['total'] ?>)</a>
                       <a href="<?= base_url('distributor/edit/') . $emp['user_id']; ?>" id="empEdit" class="btn btn-info btn-sm">Edit</a>
 
 
