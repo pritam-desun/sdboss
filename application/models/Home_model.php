@@ -40,45 +40,28 @@ class Home_model extends CI_Model
 		return $query->result();
 	}
 
-	public function getInactiveAccountList()
+	public function getLuckyNumber()
 	{
-		$this->db->select('customers.id, customers.cust_code, wallet.amount as wallet_balance, dealer.full_name as dealer_name, distributor.full_name as distributor_name, customers.full_name, customers.mobile')
-			->from('customers')
-			->join('wallet', 'customers.cust_code = wallet.cust_code', 'left')
-			->join('users as dealer', 'dealer.user_id=customers.assigned_by_id', 'left')
-			->join('users as distributor', 'distributor.user_id=dealer.assigned_by_id', 'left')
-			->where('customers.is_deleted', '1')
-			->order_by('customers.id', 'desc');
-		$query = $this->db->get();
-		return $query->result();
+		$this->db->select('g.*, c.cat_name');
+		$this->db->join('category as c', 'g.category_id=c.id', 'left');
+		$this->db->order_by('g.guessing_date', 'desc');
+		$this->db->limit(6);
+		$results = $this->db->get('guessing g')->result();
+		return $results;
 	}
 
-	public function getTotalUser($acc_status = '0')
+	public function getGame()
 	{
-		$this->db->select('count(id) as customers')
-			->from('customers')
-			->where('customers.is_deleted', $acc_status);
-		$query = $this->db->get();
-		return $query->row();
-	}
+		// GROUP_CONCAT(gm.slot_id)
+		$this->db->select('gm.*');
+		$this->db->join('game as gm', 'c.id=gm.cat_id', 'left');
+		$this->db->where_in('gm.name', ['OPEN', 'CLOSE']);
+		// $this->db->join('slot as sl', 'gm.slot_id=sl.id', 'left');
+		$results = $this->db->get('category c')->result();
 
-	public function getTotalAmount($acc_status = '0')
-	{
-		$this->db->select('SUM(amount) as balance')
-			->from('wallet')
-			->join('customers', 'customers.cust_code = wallet.cust_code')
-			->where('customers.is_deleted', $acc_status);
-		$query = $this->db->get();
-		return $query->row();
-	}
-
-	public function getDetail($mobile)
-	{
-		$this->db->select('customers.full_name,customers.cust_code as id, wallet.amount as current_amount')
-			->from('customers')
-			->join('wallet', 'customers.cust_code = wallet.cust_code')
-			->where('customers.mobile', $mobile);
-		$query = $this->db->get();
-		return $query->row();
+		echo "<pre>";
+		print_r($results);
+		die;
+		return $results;
 	}
 }

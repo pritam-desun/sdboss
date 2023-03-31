@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] == 2) {
 ?>
+    <style>
+        .dataTables_empty {
+            text-align: center !important;
+        }
+    </style>
     <div class="layout-px-spacing">
         <div class="row layout-top-spacing">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -131,26 +136,27 @@ if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] 
                                     $total_pl = 0;
                                     $pl = 0;
                                     foreach ($online_counter_results as $key => $online_counter_result) {
+                                        if ($online_counter_result->counter_name != '') {
+                                            $total_bid += $online_counter_result->bidding_amount;
+                                            $total_win += $online_counter_result->win_amount;
+                                            $total_pl += intval($online_counter_result->bidding_amount) - intval($online_counter_result->win_amount);
+                                            $pl = number_format(round(intval($online_counter_result->bidding_amount) - intval($online_counter_result->win_amount)), 2);
 
-                                        $total_bid += $online_counter_result->bidding_amount;
-                                        $total_win += $online_counter_result->win_amount;
-                                        $total_pl += intval($online_counter_result->bidding_amount) - intval($online_counter_result->win_amount);
-                                        $pl = number_format(round(intval($online_counter_result->bidding_amount) - intval($online_counter_result->win_amount)), 2);
-
-                                        $plper = number_format(round(((intval($online_counter_result->bidding_amount) * intval($pl)) / 100)), 2)
+                                            $plper = number_format(round(((intval($online_counter_result->bidding_amount) * intval($pl)) / 100)), 2)
                                     ?>
-                                        <tr>
-                                            <td><?= ++$key ?></td>
-                                            <td><?= $online_counter_result->counter_name ?></td>
-                                            <td><?= $online_counter_result->dealer_name ?></td>
-                                            <td><?= $online_counter_result->distributor_name ?></td>
-                                            <td><?= $online_counter_result->wallet ?></td>
-                                            <td><?= number_format(round($online_counter_result->bidding_amount), 2) ?></td>
-                                            <td><?= number_format(round($online_counter_result->win_amount), 2) ?></td>
-                                            <td><?= $pl ?></td>
-                                            <!-- <td>< ?= $plper ?></td> -->
-                                        </tr>
-                                    <?php } ?>
+                                            <tr>
+                                                <td><?= ++$key ?></td>
+                                                <td><?= $online_counter_result->counter_name ?></td>
+                                                <td><?= $online_counter_result->dealer_name ?></td>
+                                                <td><?= $online_counter_result->distributor_name ?></td>
+                                                <td><?= $online_counter_result->wallet ?></td>
+                                                <td><?= number_format(round($online_counter_result->bidding_amount), 2) ?></td>
+                                                <td><?= number_format(round($online_counter_result->win_amount), 2) ?></td>
+                                                <td><?= $pl ?></td>
+                                                <!-- <td>< ?= $plper ?></td> -->
+                                            </tr>
+                                    <?php }
+                                    } ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>

@@ -22,14 +22,30 @@
 <div class="cm-patti">
     <h3>Today Lucky Number</h3>
     <div class="row">
-        <div class="aa55">
-            <h4>Golden Ank</h4>
-            <p>2-4-8-0</p>
-        </div>
-        <div class="aa55">
+        <?php
+        if (count($luckynumbers)) {
+            for ($i = 0; $i < 6; $i++) {
+                if (array_key_exists($i, $luckynumbers)) {
+        ?>
+                    <div class="aa55">
+                        <h4><?= $luckynumbers[$i]->cat_name ?></h4>
+                        <p><?= $luckynumbers[$i]->number ?></p>
+                    </div>
+                <?php } else { ?>
+                    <div class="aa55">
+                        <h4>XXXX</h4>
+                        <p>XXXX</p>
+
+                    </div>
+        <?php
+                }
+            }
+        }
+        ?>
+        <!-- <div class="aa55">
             <h4>Motor Patti</h4>
             <p>12349</p>
-        </div>
+        </div> -->
     </div>
 </div>
 
@@ -98,18 +114,21 @@
 
 <h4 class="banner">WORLD ME SABSE FAST SATTA MATKA RESULT</h4>
 <div class="satta-result" style="border-color: #aa00c0;">
-    <div class="">
-        <h4>SRIDEVI MORNING</h4>
-        <h5>110-20-389</h5>
-        <h6>9:45 AM &nbsp;&nbsp; 10:45 AM</h6>
-        <div class="result_timing">
-            <a href="/site/jodi?market_id=44" class="btn_chart">Jodi</a>
+    <?php foreach ($games as $key => $game) { ?>
+        <div class="">
+            <h4><?= $game->cat_name ?></h4>
+            <h5>110-20-389</h5>
+            <h6>11:30 AM &nbsp;&nbsp; 12:30 PM</h6>
+            <div class="result_timing">
+                <a href="/site/jodi?market_id=44" class="btn_chart">Jodi</a>
+            </div>
+            <div class="result_timing_right">
+                <a href="/site/panel?market_id=44" class="btn_chart">Panel</a>
+            </div>
         </div>
-        <div class="result_timing_right">
-            <a href="/site/panel?market_id=44" class="btn_chart">Panel</a>
-        </div>
-    </div>
-    <div class="">
+    <?php } ?>
+
+    <!-- <div class="">
         <h4>RAJDHANI MORNING</h4>
         <h5>360-96-169</h5>
         <h6>11:30 AM &nbsp;&nbsp; 12:30 PM</h6>
@@ -164,7 +183,7 @@
         <div class="result_timing_right">
             <a href="/site/panel?market_id=1" class="btn_chart">Panel</a>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <div class="conta">

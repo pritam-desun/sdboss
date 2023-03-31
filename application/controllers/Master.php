@@ -1,6 +1,7 @@
 <?php
 class Master extends CI_Controller
 {
+	public $commonHelper;
 	function __construct()
 	{
 		parent::__construct();
@@ -9,6 +10,8 @@ class Master extends CI_Controller
 		$this->load->model('Bid_model', 'bid');
 		//	$this->load->model('Money_model','money');
 		// $this->load->helper('CommonFunction');
+		$this->load->helper('commonfunction');
+		$this->commonHelper = new CommonFunction;
 	}
 
 	public function news()
@@ -638,7 +641,7 @@ class Master extends CI_Controller
 				'number' => $this->input->post('number'),
 			);
 			if ($this->db->insert('guessing', $data)) {
-				$this->session->set_flashdata('msg', 'Guessing Added successfully');
+				$this->session->set_flashdata('msg', 'Guessing addedS successfully');
 				$this->session->set_flashdata('msg_class', 'success');
 			}
 			redirect('master/addguess');
@@ -664,5 +667,42 @@ class Master extends CI_Controller
 		$this->load->view('layout/header');
 		$this->load->view('master/guess/view', $data);
 		$this->load->view('layout/footer');
+	}
+
+	public function editguess()
+	{
+		$id = $this->uri->segment(3);
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+
+			$data = array(
+				'category_id' => $this->input->post('category_id'),
+				'number' => $this->input->post('number'),
+			);
+			if ($this->db->update('guessing', $data, ['id' => $id])) {
+				$this->session->set_flashdata('msg', 'Guessing updated successfully');
+				$this->session->set_flashdata('msg_class', 'success');
+			}
+			redirect('master/viewguess');
+			/* echo "<pre>";
+			print_r($this->input->post());
+			die; */
+		}
+		$data['categories'] = $this->db->get_where('category', array('status' => 'Y'))->result();
+		$data['guess_number'] = $this->db->get_where('guessing', array('id' => $id))->row();
+
+
+		$this->load->view('layout/header');
+		$this->load->view('master/guess/edit', $data);
+		$this->load->view('layout/footer');
+	}
+
+	public function deleteguess()
+	{
+		$id = $this->uri->segment(3);
+		if ($this->db->delete('guessing', ['id' => $id])) {
+			$this->session->set_flashdata('msg', 'Guessing deleted successfully');
+			$this->session->set_flashdata('msg_class', 'success');
+		}
+		redirect('master/viewguess');
 	}
 }

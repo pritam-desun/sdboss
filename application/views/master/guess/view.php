@@ -2,6 +2,12 @@
 
     <div class="row layout-top-spacing">
         <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+            <?php if ($this->session->flashdata('msg')) { ?>
+                <div class="alert alert-<?= $this->session->flashdata('msg_class') ?> alert-dismissible show">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p class="alert-heading"> <?= $this->session->flashdata('msg') ?> </p>
+                </div>
+            <?php } ?>
             <div class="widget-content widget-content-area br-6">
                 <div class="table-responsive mb-4 mt-4">
                     <table id="dealer_tbl" class="table table-hover non-hover" style="width:100%">
@@ -22,7 +28,10 @@
                                     <td><?= $guessingrow->number ?></td>
                                     <td><?= $guessingrow->guessing_date ?></td>
                                     <td>
-                                        <a href="http://localhost:8080/counter/view/16" id="" class="btn btn-primary btn-sm" target="_blank">Edit</a> <a href="http://localhost:8080/counter/view/16" id="" class="btn btn-danger btn-sm" target="_blank">Delete</a>
+                                        <?php
+                                        echo $this->commonHelper->actionBtn('master/editguess/' . $guessingrow->id, '', 'btn btn-primary btn-sm', '', 'Edit', false) . ' ';
+                                        echo $this->commonHelper->actionBtn('master/deleteguess/' . $guessingrow->id, '', 'btn btn-danger btn-sm', '', 'Delete', true);
+                                        ?>
                                     </td>
                                 </tr>
                             <?php } ?>
