@@ -259,6 +259,7 @@ class Report extends CI_Controller
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $dealer_id = $this->input->post('dealer_id');
             if (isset($_POST['date']) && $_POST['date'] != '') {
+
                 $search = " to ";
                 if (preg_match("/{$search}/i", $_POST['date'])) {
                     $dates = explode(' to ', $_POST['date']);
@@ -268,6 +269,9 @@ class Report extends CI_Controller
                     $from_date = $_POST['date'];
                     $to_date = $_POST['date'];
                 }
+            } else {
+                $from_date = false;
+                $to_date = false;
             }
             //ini_set('memory_limit', '128M');
             //$commision = $this->report->getDistributorReport();

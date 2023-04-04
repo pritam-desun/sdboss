@@ -510,7 +510,8 @@ class Master extends CI_Controller
 	public function addprice()
 	{
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-			//print_r($_POST);die();
+			/* print_r("" . strip_tags($this->input->post('game_type')) . "");
+			die(); */
 			$this->form_validation->set_rules('cat_id', 'Category', 'required');
 			$this->form_validation->set_rules('game_type', 'Game Type', 'required');
 			$this->form_validation->set_rules('type', 'Calculation Type', 'required');
@@ -522,7 +523,7 @@ class Master extends CI_Controller
 				if (empty($check)) {
 					$data_insert = array(
 						'cat_id' => strip_tags($this->input->post('cat_id')),
-						'game_type' => strip_tags($this->input->post('game_type')),
+						'game_type' => "" . strip_tags($this->input->post('game_type')) . "",
 						'type' => strip_tags($this->input->post('type')),
 						'value' => strip_tags($this->input->post('value'))
 					);

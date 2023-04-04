@@ -13,7 +13,11 @@
                         <label for="inputFullName">Distributor</label>
                         <select id="inputState" class="form-control mb-2 mr-sm-2" required name="distributor_id">
                             <?php foreach ($distributors as $distributor) { ?>
-                                <option value="<?= $distributor->user_id ?>" <?= ($distributor->user_id == $selected_dealer->assigned_by_id ? 'selected' : '') ?>><?= $distributor->full_name ?></option>
+                                <?php if (is_null($selected_dealer)) { ?>
+                                    <option value="<?= $distributor->user_id ?>"><?= $distributor->full_name ?></option>
+                                <?php } else { ?>
+                                    <option value="<?= $distributor->user_id ?>" <?= ($distributor->user_id == $selected_dealer->assigned_by_id ? 'selected' : '') ?>><?= $distributor->full_name ?></option>
+                                <?php } ?>
                             <?php } ?>
                             </option>
                         </select>

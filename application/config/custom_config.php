@@ -6,14 +6,15 @@ $config['pay_type'] = array(
 	'paytm' => 'Paytm',
 	'phonepe' => 'PhonePe',
 	'upi' => 'UPI'
-	);
+);
 $config['y_status'] = array(
 	'Y' => 'Active',
 	'N' => 'Inactive',
 );
 $config['game_type'] = array(
 	'Single' => 'Single',
-	'Patti' => 'Patti',
 	'Jodi' => 'Jodi',
-	'CP' => 'CP',
+	'Single Patti' => 'Single Patti',
+	'Double Patti' => 'Double Patti',
+	'Triple Patti' => 'Triple Patti',
 );

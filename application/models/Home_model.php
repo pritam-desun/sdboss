@@ -52,16 +52,43 @@ class Home_model extends CI_Model
 
 	public function getGame()
 	{
-		// GROUP_CONCAT(gm.slot_id)
-		$this->db->select('gm.*');
-		$this->db->join('game as gm', 'c.id=gm.cat_id', 'left');
-		$this->db->where_in('gm.name', ['OPEN', 'CLOSE']);
-		// $this->db->join('slot as sl', 'gm.slot_id=sl.id', 'left');
+		$this->db->select('c.*');
 		$results = $this->db->get('category c')->result();
-
-		echo "<pre>";
+		/* echo "<pre>";
 		print_r($results);
-		die;
+		die; */
+
+		foreach ($results as $key => $result) {
+			$data[$key]['cat_name'] = $result->cat_name;
+			$this->db->select('gm.*, sl.*, TIME_FORMAT(sl.start_time, "%h:%i %p") as start_time, TIME_FORMAT(sl.end_time, "%h:%i %p") as end_time');
+			$this->db->where_in('gm.name', ['OPEN', 'CLOSE']);
+			$this->db->where('gm.cat_id', $result->id);
+			$this->db->join('slot as sl', 'gm.slot_id=sl.id', 'left');
+			$games = $this->db->get('game gm')->result();
+
+			if (count($games) > 0) {
+				foreach ($games as $ganekey => $game) {
+					if ($game->name == 'OPEN') {
+						$data[$key]['o_end_time'] = $game->end_time;
+					}
+					if ($game->name == 'CLOSE') {
+						$data[$key]['c_end_time'] = $game->end_time;
+					}
+
+					/* echo "<pre>";
+					print_r($games);
+					die; */
+				}
+			} else {
+				$data[$key]['o_end_time'] = 0;
+				$data[$key]['c_end_time'] = 0;
+			}
+		}
+
+		/* echo "<pre>";
+		print_r($data);
+		die; */
+		$results = $data;
 		return $results;
 	}
 }

@@ -116,9 +116,9 @@
 <div class="satta-result" style="border-color: #aa00c0;">
     <?php foreach ($games as $key => $game) { ?>
         <div class="">
-            <h4><?= $game->cat_name ?></h4>
+            <h4><?= $game['cat_name'] ?></h4>
             <h5>110-20-389</h5>
-            <h6>11:30 AM &nbsp;&nbsp; 12:30 PM</h6>
+            <h6><?= $game['o_end_time'] == 0 ? '' : $game['o_end_time'] ?> &nbsp;&nbsp; <?= $game['c_end_time'] == 0 ? '' : $game['c_end_time'] ?></h6>
             <div class="result_timing">
                 <a href="/site/jodi?market_id=44" class="btn_chart">Jodi</a>
             </div>

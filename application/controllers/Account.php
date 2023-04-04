@@ -144,14 +144,22 @@ class Account extends CI_Controller
 	{
 		$id  = $this->uri->segment(3);
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+
 			$dealer_id = $this->input->post('dealer_id');
+
 			if ($this->db->update('customers', ['assigned_by_id' => $dealer_id], ['id' => $id])) {
+				/* echo $id;
+				die; */
 				redirect('account/list');
 			}
 		}
 		$data['customer'] = $this->db->get_where('customers', ['id' => $id])->row();
 		$data['distributors'] = $this->db->get_where('users', ['user_type' => 3])->result();
 		$data['selected_dealer'] = $this->db->get_where('users', ['user_id' => $data['customer']->assigned_by_id])->row();
+
+		/* echo "<pre>";
+		print_r($data['selected_dealer']);
+		die; */
 		$data['dealers'] = $this->db->get_where('users', ['user_type' => 4])->result();
 		$this->load->view('layout/header');
 		$this->load->view('account/counteredit', $data);

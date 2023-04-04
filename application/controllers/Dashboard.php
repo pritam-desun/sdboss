@@ -25,9 +25,6 @@ class Dashboard extends CI_Controller
 
 		$query = $this->db->query("SELECT DATE(created_on) as count FROM wallet_trans GROUP BY DATE(created_on) ORDER BY created_on");
 		$data['date'] = json_encode(array_column($query->result(), 'count'), JSON_NUMERIC_CHECK);
-
-
-
 		//Get Total Number of active users
 		$data['users'] = $this->dashboard->getTotalActiveUsers();
 		//Get Total Amount of withdraw request
@@ -42,14 +39,11 @@ class Dashboard extends CI_Controller
 		$data['deposit_today'] = $this->dashboard->getTotalDepositToday();
 		//Get Total Dealer
 		$data['total_dealer'] = $this->dashboard->getTotalDealer();
-
 		/* echo "<pre>";
 		print_r($data['total_dealer']);
 		die; */
-
-
 		/* For New code */
-		if ($this->session->user['user_type'] == 1) {
+		if ($this->session->user['user_type'] == 1 || $this->session->user['user_type'] == 2) {
 
 			/* Total Dealer Distributor */
 			$data['total_distributor'] = $this->db->get_where('users', array('user_type' => 3))->num_rows();
@@ -136,12 +130,10 @@ class Dashboard extends CI_Controller
 			$this->db->join('users as distributor', 'dealer.assigned_by_id=distributor.user_id', 'left');
 			//$this->db->group_by('bidding.id');
 			$data['online_counter_results'] = $this->db->get('bidding')->result();
-
 			/* echo "<pre>";
 			print_r($data['online_counter_results']);
 			die; */
 		}
-
 		/* ---------------------------- */
 
 		$this->load->view('layout/header');
